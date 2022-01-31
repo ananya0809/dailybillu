@@ -19,8 +19,8 @@ class GetBillu :
         return id in all_ids
 
     def save_billu(self, id) :
-        f = open("used", "w+")
-        f.write(id)
+        f = open("used", "a+")
+        f.writelines(id +'\n')
         f.close()
 
     def get_single_billu(self) :
