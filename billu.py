@@ -16,7 +16,10 @@ class GetBillu :
         f = open("used", "r")
         all_ids = f.readlines()
         f.close()
-        return id in all_ids
+        for line_id in all_ids:
+            if line_id.strip() == id:
+                return True
+        return False
 
     def save_billu(self, id) :
         f = open("used", "a+")
@@ -29,13 +32,17 @@ class GetBillu :
         # Search for billu videos
         cats = CustomSearch(query, Config.SEARCH_RESULT_DURATION, limit = 1)
         # Check if we already used the id
-        print(cats.result()['result'][0]["id"])
-        while self.already_used(cats.result()['result'][0]["id"]) is True:
+        cat_id = cats.result()['result'][0]["id"]
+        print(cat_id)
+
+        while self.already_used(cat_id) is True:
             cats.next()
-        
+            cat_id = cats.result()['result'][0]["id"]
+            print(cat_id)
+
         # new billu found
         # save it and return link
-        self.save_billu(cats.result()['result'][0]["id"])
+        self.save_billu(cat_id)
         return cats.result()['result'][0]["link"]
 
 # Generates Email Content
